@@ -1,0 +1,18 @@
+# Setup
+title:        Learnable Triangulation of Human Pose
+tagline:      Karim Iskakov, Egor Burkov, Victor Lempitsky, Yury Malkov
+baseurl:      "/learnable-triangulation-of-human-pose-page"
+paginate:     1
+locale:       "en"
+
+# About/contact
+author:
+  name:       Karim Iskakov
+  url:        http://karfly.github.io/learnable-triangulation-of-human-pose
+
+# Gems
+gems:
+  - jekyll-paginate
+
+# Others
+markdown: kramdown
