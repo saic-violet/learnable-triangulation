@@ -11,7 +11,7 @@ The [first (baseline) solution](#algebraic) is a basic differentiable algebraic 
 Crucially, both of the approaches are end-to-end differentiable, which allows us to directly optimize the target metric. We demonstrate [transferability](#transfer-from-panoptic-cmu-to-human36m) of the solutions across datasets and [considerably improve](#human3-6m) the multi-view state of the art on the Human3.6M dataset.
 
 <div class="youtube-responsive-container">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/UeMrjCDmr-k?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/z3f3aPSuhqg?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 
 # Models
@@ -20,9 +20,7 @@ Our approaches assumes we have synchronized video streams from $$C$$ cameras wit
 ## Algebraic
 Our first approach is based on algebraic triangulation with learned confidences.
 
-<div style="display: flex; justify-content: center;">
-  <img src="static/algebraic-model.png" alt="Algebraic model" />
-</div>
+<img src="static/algebraic-model.svg" alt="Algebraic model" />
 
 1. 2D backbone produces the joints' heatmaps $$H_{c,j}$$ and camera-joint confidences $$w_{c,j}$$.
 
@@ -49,9 +47,11 @@ All blocks allow backpropagation of the gradients, so the model can be trained e
 ## Volumetric
 Our second approach is based on volumetric triangulation.
 
-<div style="display: flex; justify-content: center;">
+<img src="static/volumetric-model.svg" alt="Volumetric model" />
+
+<!-- <div style="display: flex; justify-content: center;">
   <img src="static/volumetric-model.png" alt="Volumetric model" />
-</div>
+</div> -->
 
 1. The 2D backbone produces intermediate feature maps $$M_{c,k}$$ (note, that unlike the first model, feature maps doesn't have to be interpretable).
 
@@ -73,7 +73,7 @@ Our second approach is based on volumetric triangulation.
 
 $$
   {V'}_{j}^{\text{output}}={\text{exp}( {V}_{j}^{\text{output}} )} /
-      \Big({\sum\limits_{r_x=1}^{W}{\sum\limits_{r_y=1}^{H} \sum\limits_{r_z=1}^{D} \text{exp}( {V}_{j}^{\text{output}}(\boldsymbol{r})   )}}
+      \Big({\sum\limits_{r_x=1}^{W}{\sum\limits_{r_y=1}^{H} \sum\limits_{r_z=1}^{D} \text{exp}( {V}_{j}^{\text{output}}(\boldsymbol{r})) \Big)}}
 $$
 
 $$
@@ -84,6 +84,9 @@ Volumetric model is also fully differentiable and can be trained end-to-end.
 
 ### Unprojection
 Here's an animation showing how unprojection works for 2 cameras:
+
+<img src="static/unprojection.gif" alt="Algebraic model" />
+
 
 # Results
 We conduct experiments on two available large multi-view datasets with available ground-truth 3D pose annotations: Human3.6M [\[2\]](#references) and CMU Panoptic [\[3\]](#references).

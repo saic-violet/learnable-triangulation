@@ -7,9 +7,38 @@
   <title>Learnable Triangulation of Human Pose</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#157878">
-  <link rel="stylesheet" href="/learnable-triangulation-of-human-pose-page/css/normalize.css">
+  <link rel="stylesheet" href="/learnable-triangulation-of-human-pose/css/normalize.css">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="/learnable-triangulation-of-human-pose-page/css/cayman.css">
+  <link rel="stylesheet" href="/learnable-triangulation-of-human-pose/css/cayman.css">
+
+  <!-- favicon support -->
+  <!-- Begin Jekyll Favicon tag v0.2.6 -->
+<!-- Classic -->
+<link rel="shortcut icon" href="/learnable-triangulation-of-human-pose/favicon.ico">
+<link rel="icon" sizes="48x48 32x32 16x16" href="/learnable-triangulation-of-human-pose/favicon.ico">
+  <link rel="icon" sizes="16x16" type="image/png" href="/learnable-triangulation-of-human-pose/assets/images/favicon-16x16.png">
+  <link rel="icon" sizes="32x32" type="image/png" href="/learnable-triangulation-of-human-pose/assets/images/favicon-32x32.png">
+  <link rel="icon" sizes="64x64" type="image/png" href="/learnable-triangulation-of-human-pose/assets/images/favicon-64x64.png">
+  <link rel="icon" sizes="144x144" type="image/png" href="/learnable-triangulation-of-human-pose/assets/images/favicon-144x144.png">
+<!-- Safari -->
+  <link rel="apple-touch-icon" sizes="57x57" href="/learnable-triangulation-of-human-pose/assets/images/favicon-57x57.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="/learnable-triangulation-of-human-pose/assets/images/favicon-76x76.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="/learnable-triangulation-of-human-pose/assets/images/favicon-120x120.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/learnable-triangulation-of-human-pose/assets/images/favicon-152x152.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="/learnable-triangulation-of-human-pose/assets/images/favicon-167x167.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/learnable-triangulation-of-human-pose/assets/images/favicon-180x180.png">
+
+<link rel="mask-icon" color="#ffffff" href="/learnable-triangulation-of-human-pose/assets/images/safari-pinned-tab.svg">
+<!-- Chrome -->
+  <link rel="icon" sizes="192x192" href="/learnable-triangulation-of-human-pose/assets/images/favicon-192x192.png">
+  <link rel="icon" sizes="96x96" href="/learnable-triangulation-of-human-pose/assets/images/favicon-96x96.png">
+  <link rel="icon" sizes="48x48" href="/learnable-triangulation-of-human-pose/assets/images/favicon-48x48.png">
+<link rel="manifest" href="/learnable-triangulation-of-human-pose/manifest.webmanifest">
+<!-- IE -->
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="/learnable-triangulation-of-human-pose/assets/images/favicon-144x144.png">
+<meta name='msapplication-config' content="/learnable-triangulation-of-human-pose/browserconfig.xml">
+<!-- End Jekyll Favicon tag -->
 
   <!-- Mathjax Support -->
   <script type="text/javascript" async
@@ -22,9 +51,10 @@
     <section class="page-header">
   <h1 class="project-name">Learnable Triangulation of Human Pose</h1>
   <h2 class="project-tagline">Karim Iskakov, Egor Burkov, Victor Lempitsky, Yury Malkov</h2>
-  <a href="#" class="btn">arXiv</a>
+  <a href="#" class="btn">arXiv (soon)</a>
+  <a href="https://www.youtube.com/watch?v=z3f3aPSuhqg" class="btn">Video</a>
   <a href="#" class="btn">Code (soon)</a>
-  <a href="#" class="btn">BibTeX (soon)</a>
+  <a href="#bibtex" class="btn">BibTeX (soon)</a>
 </section>
 
 
@@ -39,7 +69,7 @@
 <p>Crucially, both of the approaches are end-to-end differentiable, which allows us to directly optimize the target metric. We demonstrate <a href="#transfer-from-panoptic-cmu-to-human36m">transferability</a> of the solutions across datasets and <a href="#human3-6m">considerably improve</a> the multi-view state of the art on the Human3.6M dataset.</p>
 
 <div class="youtube-responsive-container">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/UeMrjCDmr-k?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/z3f3aPSuhqg?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 </div>
 
 <h1 id="models">Models</h1>
@@ -48,9 +78,7 @@
 <h2 id="algebraic">Algebraic</h2>
 <p>Our first approach is based on algebraic triangulation with learned confidences.</p>
 
-<div style="display: flex; justify-content: center;">
-  <img src="static/algebraic-model.png" alt="Algebraic model" />
-</div>
+<p><img src="static/algebraic-model.svg" alt="Algebraic model" /></p>
 
 <ol>
   <li>
@@ -77,9 +105,11 @@
 <h2 id="volumetric">Volumetric</h2>
 <p>Our second approach is based on volumetric triangulation.</p>
 
-<div style="display: flex; justify-content: center;">
+<p><img src="static/volumetric-model.svg" alt="Volumetric model" /></p>
+
+<!-- <div style="display: flex; justify-content: center;">
   <img src="static/volumetric-model.png" alt="Volumetric model" />
-</div>
+</div> -->
 
 <ol>
   <li>
@@ -103,7 +133,7 @@
 </ol>
 
 <script type="math/tex; mode=display">{V'}_{j}^{\text{output}}={\text{exp}( {V}_{j}^{\text{output}} )} /
-      \Big({\sum\limits_{r_x=1}^{W}{\sum\limits_{r_y=1}^{H} \sum\limits_{r_z=1}^{D} \text{exp}( {V}_{j}^{\text{output}}(\boldsymbol{r})   )}}</script>
+      \Big({\sum\limits_{r_x=1}^{W}{\sum\limits_{r_y=1}^{H} \sum\limits_{r_z=1}^{D} \text{exp}( {V}_{j}^{\text{output}}(\boldsymbol{r})) \Big)}}</script>
 
 <script type="math/tex; mode=display">\boldsymbol{y}_{j} = \sum\limits_{r_x=1}^{W} \sum\limits_{r_y=1}^{H} \sum\limits_{r_z=1}^{D} \boldsymbol{r} \cdot {V'}_{j}^{\text{output}}(\boldsymbol{r})</script>
 
@@ -111,6 +141,8 @@
 
 <h3 id="unprojection">Unprojection</h3>
 <p>Here’s an animation showing how unprojection works for 2 cameras:</p>
+
+<p><img src="static/unprojection.gif" alt="Algebraic model" /></p>
 
 <h1 id="results">Results</h1>
 <p>We conduct experiments on two available large multi-view datasets with available ground-truth 3D pose annotations: Human3.6M <a href="#references">[2]</a> and CMU Panoptic <a href="#references">[3]</a>.</p>
@@ -265,7 +297,7 @@
 
 
       <footer class="site-footer">
-  <span class="site-footer-owner"><a href="http://localhost:4000">Learnable Triangulation of Human Pose</a> is maintained by <a href="http://karfly.github.io/learnable-triangulation-of-human-pose">Karim Iskakov</a>.</span>
+  <span class="site-footer-owner"><a href="http://localhost:4000">Learnable Triangulation of Human Pose</a> is maintained by <a href="http://saic-violet.github.io/learnable-triangulation-of-human-pose">Karim Iskakov</a>.</span>
   <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
 </footer>
 
