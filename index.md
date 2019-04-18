@@ -76,7 +76,7 @@ This illustration demonstrates the robustness of the volumetric triangulation ap
 
 ### MPJPE* vs. number of cameras:
 
-<img src="static/cmu-panoptic-camera-plot.png" alt="CMU Panoptic camera plot" />
+<img src="static/cmu-panoptic-camera-plot.png" alt="CMU Panoptic camera plot" class="center" width="70%"/>
 
 **Note**: here we measure MPJPE**\***, where noisy annotations from CMU Panoptic are treated as ground truth.
 
@@ -84,7 +84,7 @@ This illustration demonstrates the robustness of the volumetric triangulation ap
 ## Transfer from CMU Panoptic to Human3.6M
 We demonstrate that the learnt model **is able to transfer** between different coloring and camera setups **without any finetuning** (see video demonstration [cite])
 
-<img src="static/transfer-results.svg" alt="Transfer results" />
+<img src="static/transfer-results.svg" alt="Transfer results"/>
 
 
 # Models
