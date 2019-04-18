@@ -15,68 +15,76 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 </div>
 
 # Results
-We conduct experiments on two available large multi-view datasets with available ground-truth 3D pose annotations: Human3.6M [\[2\]](#references) and CMU Panoptic [\[3\]](#references).
+* We conduct experiments on two available large multi-view datasets: Human3.6M [\[2\]](#references) and CMU Panoptic [\[3\]](#references)
+* Main metric is **MPJPE** (Mean Per Joint Position Error) which is L2 distance averaged over all joints
+
+**Note**: Here and further we report only summary of our results. Please refer to our paper [cite] for more details.
+
 
 ## Human3.6M
-The Human3.6M [\[2\]](#references) is currently one of the largest 3D human pose benchmarks with many reported results both for monocular and multi-view setups. The full dataset consist of 3.6 million frames from 4 synchronized 50 Hz digital cameras along with the 3D pose annotations (collected using a 10 separate IR-cameras marker-based MoCap system).
+* We surpassed previous [\[5\]](#references) state of the art in **~2.4x** (error relative to pelvis)
+* Our best model reaches **17.7 mm** error in absolute coordinates, which is more than enough for real-life applications
+* Our [volumetric model](#volumetric) is able to estimate 3D human pose using **any number of cameras**, even **1 camera**. In single-view setup we get results comparable with current state of the art [\[6\]](#references) (49.9 mm vs. 49.6 mm)
 
-Here and further we report only summary of our results. Please refer to our paper for more details.
+### MPJPE relative to pelvis:
 
-### MPJPE relative to pelvis, mm:
-
-|                             	|  MPJPE (averaged across all actions) 	|
+|                             	|  MPJPE (averaged across all actions), mm	|
 |-----------------------------	|:--------:	|
+| Multi-View Martinez [\[4\]](#references)          |   57.0   	|
+| Pavlakos et al. [\[8\]](#references)   	          |   56.9   	|
 | Tome et al. [\[4\]](#references)                 	|   52.8   	|
 | Kadkhodamohammadi & Padoy [\[5\]](#references)   	|   49.1   	|
 | RANSAC (our implementation) 	|   27.4   	|
-| **Ours algebraic**          	|   22.6   	|
-| **Ours volumetric**         	| **20.8** 	|
+| **Ours, algebraic**          	|   22.6   	|
+| **Ours, volumetric**         	| **20.8** 	|
 
-### MPJPE absolute, mm (filtered scenes with erroneous ground-truth 3D pose annotations):
+### MPJPE absolute (filtered scenes with non-valid ground-truth annotations):
 
-|                             	|  MPJPE (averaged across all actions) 	|
+|                             	|  MPJPE (averaged across all actions), mm 	|
 |-----------------------------	|:--------:	|
 | RANSAC (our implementation) 	|   22.8   	|
-| **Ours algebraic**          	|   19.2   	|
-| **Ours volumetric**         	| **17.7** 	|
+| **Ours, algebraic**          	|   19.2   	|
+| **Ours, volumetric**         	| **17.7** 	|
 
-### MPJPE relative to pelvis, mm (monocular methods):
+### MPJPE relative to pelvis (single view methods):
 
-|                             	| MPJPE (averaged across all actions) 	|
+|                             	| MPJPE (averaged across all actions), mm 	|
 |-----------------------------	|:-----------------------------------:	|
-| Sun et al. [\[6\]](#references)                  	|                 49.6                	|
-| Pavllo et al. [\[7\]](#references)               	|               **46.8**               	|
-| **Ours volumetric single view** 	|                 49.9                	|
+| Martinez et al. [\[7\]](#references)                  	|                 62.9               	|
+| Sun et al. [\[6\]](#references)                  	|                 **49.6**                	|
+| **Ours, volumetric single view** 	|                 **49.9**                	|
 
 ## CMU Panoptic
-The CMU Panoptic [\[3\]](#references) is a new multi-camera dataset maintained by the Carnegie Mellon University. The dataset provides 30 Hz Full-HD videostreams of 40 subjects from up to 31 synchronized cameras.
+* Our best model reaches **13.7 mm** error in absolute coordinates for 4 cameras
+* We managed to get much smoother and more accurate 3D pose annotations compared to dataset annotations (see video demonstration [cite])
+* CMU Panoptic dataset contains ~30 cameras, so we measured quality of our methods in relation to the number of cameras
 
-### MPJPE relative to pelvis, mm [4 cameras]:
+### MPJPE relative to pelvis [4 cameras]:
 
-|                             	|  MPJPE (averaged across all actions) 	|
+|                             	|  MPJPE (averaged across all actions), mm 	|
 |-----------------------------	|:--------:	|
 | RANSAC (our implementation) 	|   39.5   	|
-| **Ours algebraic**          	|   21.3   	|
-| **Ours volumetric**         	| **13.7** 	|
+| **Ours, algebraic**          	|   21.3   	|
+| **Ours, volumetric**         	| **13.7** 	|
 
 
-Illustration of the difference in performance of the approaches on the CMU dataset validation (using 2 cameras) that demonstrates the robustness of the volumetric triangulation approach:
+### Visualization of different approaches [2 cameras]:
 
-<div style="display: flex; justify-content: center;">
-  <img src="static/cmu-panoptic-results.png" alt="CMU Panoptic results" />
-</div>
+<img src="static/cmu-panoptic-results.svg" alt="CMU Panoptic results" />
 
-Estimate of the MPJPE absolute error on the subset of CMU validation versus the numbers of cameras (up to 28, treating the annotations from CMU as ground truth):
+This illustration demonstrates the robustness of the volumetric triangulation approach.
+
+### MPJPE* vs. number of cameras:
 
 <img src="static/cmu-panoptic-camera-plot.png" alt="CMU Panoptic camera plot" />
 
+**Note**: here we measure MPJPE**\***, where noisy annotations from CMU Panoptic are treated as ground truth.
 
-## Transfer from Panoptic CMU to Human3.6M
-We also conducted experiments to demonstrate that the learnt model is indeed generalizes to new setups. For that we applied a CMU-trained model to Human3.6M validation scenes. Below you can see example image (see video for more demonstrations):
 
-<div style="display: flex; justify-content: center;">
-  <img src="static/transfer-results.png" alt="Transfer results" />
-</div>
+## Transfer from CMU Panoptic to Human3.6M
+We demonstrate that the learnt model **is able to transfer** between different coloring and camera setups **without any finetuning** (see video demonstration [cite])
+
+<img src="static/transfer-results.svg" alt="Transfer results" />
 
 
 # Models
@@ -165,4 +173,5 @@ TBA
 * [\[4\]](#references) D. Tome, M. Toso, L. Agapito, and C. Russell.  **Rethinking Pose in 3D: Multi-stage Refinement and Recovery for Markerless Motion Capture**.
 * [\[5\]](#references) A. Kadkhodamohammadi and N. Padoy. **A generalizable approach for multi-view 3D human pose regression**.
 * [\[6\]](#references) X. Sun, B. Xiao, S. Liang, and Y. Wei. **Integral human pose regression**.
-* [\[7\]](#references) D. Pavllo, C. Feichtenhofer, D. Grangier, and M. Auli. **3d human pose estimation in video with temporal convolutions and semi-supervised training**.
+* [\[7\]](#references) J. Martinez, R. Hossain, J. Romero, and J. J. Little. **A simple yet effective baseline for 3d human pose estimation**.
+* [\[8\]](#references) G. Pavlakos, X. Zhou, K. G. Derpanis, and  K. Daniilidis. **Harvesting multiple views for marker-less 3D human pose annotations**.
