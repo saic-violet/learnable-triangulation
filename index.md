@@ -22,9 +22,9 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 
 
 ## Human3.6M
-* We surpassed previous [\[5\]](#references) state of the art in **~2.4x** (error relative to pelvis)
+* We surpassed previous state of the art [\[5\]](#references) in **~2.4** times (error relative to pelvis)
 * Our best model reaches **17.7 mm** error in absolute coordinates, which is more than enough for real-life applications
-* Our [volumetric model](#volumetric) is able to estimate 3D human pose using **any number of cameras**, even **1 camera**. In single-view setup we get results comparable with current state of the art [\[6\]](#references) (49.9 mm vs. 49.6 mm)
+* Our [volumetric model](#volumetric) is able to estimate 3D human pose using **any number of cameras**, even using **only 1 camera**. In single-view setup we get results comparable with current state of the art [\[6\]](#references) (49.9 mm vs. 49.6 mm)
 
 ### MPJPE relative to pelvis:
 
@@ -46,7 +46,7 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 | **Ours, algebraic**          	|   19.2   	|
 | **Ours, volumetric**         	| **17.7** 	|
 
-### MPJPE relative to pelvis (single view methods):
+### MPJPE relative to pelvis (single-view methods):
 
 |                             	| MPJPE (averaged across all actions), mm 	|
 |-----------------------------	|:-----------------------------------:	|
@@ -56,12 +56,12 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 
 ## CMU Panoptic
 * Our best model reaches **13.7 mm** error in absolute coordinates for 4 cameras
-* We managed to get much smoother and more accurate 3D pose annotations compared to dataset annotations (see video demonstration [cite])
+* We managed to get much smoother and more accurate 3D pose annotations compared to dataset annotations (see [video demonstration](#abstract))
 * CMU Panoptic dataset contains ~30 cameras, so we measured quality of our methods in relation to the number of cameras
 
 ### MPJPE relative to pelvis [4 cameras]:
 
-|                             	|  MPJPE (averaged across all actions), mm 	|
+|                             	|  MPJPE, mm 	|
 |-----------------------------	|:--------:	|
 | RANSAC (our implementation) 	|   39.5   	|
 | **Ours, algebraic**          	|   21.3   	|
@@ -82,22 +82,22 @@ This illustration demonstrates the robustness of the volumetric triangulation ap
 
 
 ## Transfer from CMU Panoptic to Human3.6M
-We demonstrate that the learnt model **is able to transfer** between different coloring and camera setups **without any finetuning** (see video demonstration [cite])
+We demonstrate that the learnt model **is able to transfer** between different coloring and camera setups **without any finetuning** (see [video demonstration](#abstract))
 
 <img src="static/transfer-results.svg" alt="Transfer results"/>
 
 
 # Models
-Our approaches assumes we have synchronized video streams from $$C$$ cameras with known projection matrices $$P_c$$ capturing performance of a single person in the scene. We aim at estimating the global 3D positions $$\boldsymbol{y}_{j,t}$$ of a fixed set of human joints with indices $$j\in(1..J)$$.
+Our approaches assume we have **synchronized video streams** from $$C$$ cameras with known **projection matrices** $$P_c$$ capturing performance of a single person in the scene. We aim at estimating the global 3D positions $$\boldsymbol{y}_{j}$$ of a fixed set of human joints with indices $$j\in(1..J)$$.
 
 ## Algebraic
-Our first approach is based on algebraic triangulation with learned confidences.
+Our first approach is based on algebraic triangulation with **learned confidences**.
 
 <img src="static/algebraic-model.svg" alt="Algebraic model" />
 
 1. 2D backbone produces the joints' heatmaps $$H_{c,j}$$ and camera-joint confidences $$w_{c,j}$$.
 
-2. The 2D positions of the joints $$\boldsymbol{x}_{c,j}$$ are inferred from 2D joint heatmaps $$H_{c,j}$$ by applying soft-argmax (with inverse temperature parameter $$\alpha$$):
+2. The 2D positions of the joints $$\boldsymbol{x}_{c,j}$$ are inferred from 2D joint heatmaps $$H_{c,j}$$ by applying **soft-argmax** (with inverse temperature parameter $$\alpha$$):
 
     $$
       H'_{c,j} = {\text{exp}(\alpha H_{c,j})} / \Big(\sum_{r_x=1}^{W} \sum_{r_y=1}^{H} \text{exp}(\alpha H_{c,j}(\boldsymbol{r})) \Big)
@@ -107,7 +107,7 @@ Our first approach is based on algebraic triangulation with learned confidences.
       \boldsymbol{x}_{c,j}= \sum\limits_{r_x=1}^{W}{\sum\limits_{r_y=1}^{H} \boldsymbol{r}\cdot( {H'}_{c,j}(\boldsymbol{r})})
     $$
 
-3. The 2D positions $$\boldsymbol{x}_{c,j}$$ together with the confidences $$w_{c,j}$$ are passed to the algebraic triangulation module which solves triangulation problem in the form of system of weighted linear equations:
+3. The 2D positions $$\boldsymbol{x}_{c,j}$$ together with the confidences $$w_{c,j}$$ are passed to the **algebraic triangulation module** which solves triangulation problem in the form of system of weighted linear equations:
 
     $$
       (\boldsymbol{w}_j\circ{A_j})\tilde{\boldsymbol{y}}_j=0,
@@ -115,20 +115,17 @@ Our first approach is based on algebraic triangulation with learned confidences.
 
     where $$\boldsymbol{w_j}$$ - vector of confidences for joint $$j$$, $$A_j$$ - matrix combined of 2D joint coordinates and camera parameters (see details in [\[1\]](#references)) and $$\tilde{\boldsymbol{y}}_j$$ - target 3D position of joint $$j$$.
 
-All blocks allow backpropagation of the gradients, so the model can be trained end-to-end.
+All blocks allow backpropagation of the gradients, so the model **can be trained end-to-end**.
 
 ## Volumetric
 Our second approach is based on volumetric triangulation.
 
 <img src="static/volumetric-model.svg" alt="Volumetric model" />
 
-<!-- <div style="display: flex; justify-content: center;">
-  <img src="static/volumetric-model.png" alt="Volumetric model" />
-</div> -->
 
-1. The 2D backbone produces intermediate feature maps $$M_{c,k}$$ (note, that unlike the first model, feature maps doesn't have to be interpretable).
+1. The 2D backbone produces **intermediate feature maps** $$M_{c,k}$$ (note, that unlike the first model, feature maps don't have to be interpretable).
 
-2. Then feature maps are unprojected into a volume $$V_{c,k}$$ with a per-view aggregation (see animation below):
+2. Then feature maps are unprojected into a volume $$V_{c,k}$$ with a per-view aggregation (see [animation](#unprojection) below):
 
     $$
       V_c^{\text{proj}}=P_c V^{\text{coords}}
@@ -140,9 +137,9 @@ Our second approach is based on volumetric triangulation.
 
     where $$V_c^{\text{coords}}$$ - absolute coordinates of each voxel, $$P_c$$ - projection matrix of camera $$c$$. Operation $$\{\cdot\}$$ denotes bilinear sampling.
 
-3. The volume is passed to a 3D convolutional neural network that outputs the interpretable 3D heatmaps $$V_{j}^{\text{output}}$$.
+3. The volume is passed to a **3D convolutional neural network** that outputs the interpretable 3D heatmaps $$V_{j}^{\text{output}}$$.
 
-4. The output 3D positions $$\boldsymbol{y}_{j}$$ of the joints are inferred from 3D joint heatmaps by computing soft-argmax:
+4. The output 3D positions $$\boldsymbol{y}_{j}$$ of the joints are inferred from 3D joint heatmaps by computing **soft-argmax**:
 
 $$
   {V'}_{j}^{\text{output}}={\text{exp}( {V}_{j}^{\text{output}} )} /
@@ -153,7 +150,7 @@ $$
   \boldsymbol{y}_{j} = \sum\limits_{r_x=1}^{W} \sum\limits_{r_y=1}^{H} \sum\limits_{r_z=1}^{D} \boldsymbol{r} \cdot {V'}_{j}^{\text{output}}(\boldsymbol{r})
 $$
 
-Volumetric model is also fully differentiable and can be trained end-to-end.
+Unlike the [algebraic method](#algebraic), volumetric has 3D convolutional neural network, which is able to model **human pose prior**. Volumetric model is also fully differentiable and can be trained end-to-end.
 
 ### Unprojection
 Here's an animation showing how unprojection works for 2 cameras:
