@@ -221,5 +221,5 @@ a:hover { text-decoration: underline; }
 
 .round-image {
   border-radius: 50%;
-  border: 3px solid #ffffff;
+  /* border: 3px solid #ffffff; */
 }
