@@ -87,8 +87,10 @@ We demonstrate that the learnt model **is able to transfer** between different c
 <img src="static/transfer-results.svg" alt="Transfer results"/>
 
 
-# Models
+# Overview
 Our approaches assume we have **synchronized video streams** from $$C$$ cameras with known **projection matrices** $$P_c$$ capturing performance of a single person in the scene. We aim at estimating the global 3D positions $$\boldsymbol{y}_{j}$$ of a fixed set of human joints with indices $$j\in(1..J)$$.
+
+**Note**: Here we present only short overview of our methods. Please refer to our paper [cite] for more details.
 
 ## Algebraic
 Our first approach is based on algebraic triangulation with **learned confidences**.
