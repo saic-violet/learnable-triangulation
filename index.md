@@ -8,7 +8,7 @@ We present two novel solutions for multi-view 3D human pose estimation based on 
 The [first (baseline) solution](#algebraic) is a basic differentiable algebraic triangulation with an addition of confidence weights estimated from the input images.
 [The second](#volumetric), more complex, solution is based on [volumetric aggregation](#unprojection) of 2D feature maps from the 2D backbone followed by refinement via 3D convolutions that produce final 3D joint heatmaps.
 
-Crucially, both of the approaches are end-to-end differentiable, which allows us to directly optimize the target metric. We demonstrate [transferability](#transfer-from-panoptic-cmu-to-human36m) of the solutions across datasets and [considerably improve](#human3-6m) the multi-view state of the art on the Human3.6M dataset.
+Crucially, both of the approaches are end-to-end differentiable, which allows us to directly optimize the target metric. We demonstrate [transferability](#transfer-from-cmu-panoptic-to-human36m) of the solutions across datasets and [considerably improve](#human36m) the multi-view state of the art on the Human3.6M dataset.
 
 <div class="youtube-responsive-container">
   <iframe width="560" height="315" src="https://www.youtube.com/embed/z3f3aPSuhqg?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
