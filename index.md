@@ -38,7 +38,7 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 | **Ours, algebraic**          	|   22.6   	|
 | **Ours, volumetric**         	| **20.8** 	|
 
-### MPJPE absolute (filtered scenes with non-valid ground-truth annotations):
+### MPJPE absolute (filtered scenes with [non-valid ground-truth annotations](#human36m-erroneous-annotations)):
 
 |                             	|  MPJPE (averaged across all actions), mm 	|
 |-----------------------------	|:--------:	|
@@ -159,10 +159,22 @@ Here's an animation showing how unprojection works for 2 cameras:
 
 <img src="static/unprojection.gif" alt="Algebraic model" />
 
+## Human3.6M erroneous annotations
+There are some 3D pose annotation errors in the Human3.6M dataset. For subject **S9**, actions:
+- Greeting
+- SittingDown
+- Waiting
+
+Interestingly, the error is nullified when the pelvis is subtracted (as done for monocular methods), however, to make the results for the multi-view setup interpretable we must **exclude these scenes** from the evaluation.
+
+Here is the example of erroneous 3D pose annotations (S9, "Greeting"):
+<div class="youtube-responsive-container">
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/c_ff4v-DI1U?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 # BibTeX
 ```
-TBA
+(soon)
 ```
 
 # References
