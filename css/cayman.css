@@ -223,3 +223,7 @@ a:hover { text-decoration: underline; }
   border-radius: 50%;
   /* border: 3px solid #ffffff; */
 }
+
+.caption {
+    text-align: center;
+}

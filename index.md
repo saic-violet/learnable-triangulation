@@ -26,7 +26,8 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 * Our best model reaches **17.7 mm** error in absolute coordinates, which is more than enough for real-life applications
 * Our [volumetric model](#volumetric) is able to estimate 3D human pose using **any number of cameras**, even using **only 1 camera**. In single-view setup we get results comparable with current state of the art [\[6\]](#references) (49.9 mm vs. 49.6 mm)
 
-### MPJPE relative to pelvis:
+<br>
+MPJPE relative to pelvis:
 
 |                             	|  MPJPE (averaged across all actions), mm	|
 |-----------------------------	|:--------:	|
@@ -38,7 +39,8 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 | **Ours, algebraic**          	|   22.6   	|
 | **Ours, volumetric**         	| **20.8** 	|
 
-### MPJPE absolute (filtered scenes with [non-valid ground-truth annotations](#human36m-erroneous-annotations)):
+<br>
+MPJPE absolute (filtered scenes with [non-valid ground-truth annotations](#human36m-erroneous-annotations)):
 
 |                             	|  MPJPE (averaged across all actions), mm 	|
 |-----------------------------	|:--------:	|
@@ -46,7 +48,8 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 | **Ours, algebraic**          	|   19.2   	|
 | **Ours, volumetric**         	| **17.7** 	|
 
-### MPJPE relative to pelvis (single-view methods):
+<br>
+MPJPE relative to pelvis (single-view methods):
 
 |                             	| MPJPE (averaged across all actions), mm 	|
 |-----------------------------	|:-----------------------------------:	|
@@ -59,7 +62,8 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 * We managed to get much smoother and more accurate 3D pose annotations compared to dataset annotations (see [video demonstration](#abstract))
 * CMU Panoptic dataset contains ~30 cameras, so we measured quality of our methods in relation to the number of cameras
 
-### MPJPE relative to pelvis [4 cameras]:
+<br>
+MPJPE relative to pelvis [4 cameras]:
 
 |                             	|  MPJPE, mm 	|
 |-----------------------------	|:--------:	|
@@ -68,23 +72,27 @@ Crucially, both of the approaches are end-to-end differentiable, which allows us
 | **Ours, volumetric**         	| **13.7** 	|
 
 
-### Visualization of different approaches [2 cameras]:
+<br>
+<div style="align: left; text-align:center;">
+  <img src="static/cmu-panoptic-results.svg" alt="CMU Panoptic results" />
+  <div class="caption"><b>Fig 1.</b> Visualization of different approaches [2 cameras]. This illustration demonstrates the robustness of the volumetric triangulation approach.</div>
+</div>
 
-<img src="static/cmu-panoptic-results.svg" alt="CMU Panoptic results" />
 
-This illustration demonstrates the robustness of the volumetric triangulation approach.
-
-### MPJPE* vs. number of cameras:
-
-<img src="static/cmu-panoptic-camera-plot.png" alt="CMU Panoptic camera plot" class="center" width="70%"/>
-
-**Note**: here we measure MPJPE**\***, where noisy annotations from CMU Panoptic are treated as ground truth.
-
+<br>
+<div style="align: left; text-align:center;">
+  <img src="static/cmu-panoptic-camera-plot.png" alt="CMU Panoptic camera plot" class="center" width="70%"/>
+  <div class="caption"><b>Fig 2.</b> MPJPE* vs. number of cameras. Note, here we measure MPJPE<b>*</b>, where noisy annotations from CMU Panoptic are treated as ground truth.</div>
+</div>
 
 ## Transfer from CMU Panoptic to Human3.6M
-We demonstrate that the learnt model **is able to transfer** between different coloring and camera setups **without any finetuning** (see [video demonstration](#abstract))
+We demonstrate that the learnt model **is able to transfer** between different coloring and camera setups **without any finetuning** (see [video demonstration](#abstract)).
 
-<img src="static/transfer-results.svg" alt="Transfer results"/>
+<br>
+<div style="align: left; text-align:center;">
+  <img src="static/transfer-results.svg" alt="Transfer results"/>
+  <div class="caption"><b>Fig 3.</b> Demonstration of successful transfer of the solution trained on CMU dataset to Human3.6M scenes. Note that keypoint skeleton models on Human3.6M and CMU are different.</div>
+</div>
 
 
 # Overview
@@ -127,7 +135,7 @@ Our second approach is based on volumetric triangulation.
 
 1. The 2D backbone produces **intermediate feature maps** $$M_{c,k}$$ (note, that unlike the first model, feature maps don't have to be interpretable).
 
-2. Then feature maps are unprojected into a volume $$V_{c,k}$$ with a per-view aggregation (see [animation](#unprojection) below):
+2. Then feature maps are unprojected into a volume $$V_{c,k}$$ with a per-view aggregation (see animation below):
 
     $$
       V_c^{\text{proj}}=P_c V^{\text{coords}}
@@ -154,7 +162,7 @@ $$
 
 Unlike the [algebraic method](#algebraic), volumetric has 3D convolutional neural network, which is able to model **human pose prior**. Volumetric model is also fully differentiable and can be trained end-to-end.
 
-### Unprojection
+<br>
 Here's an animation showing how unprojection works for 2 cameras:
 
 <img src="static/unprojection.gif" alt="Algebraic model" />
