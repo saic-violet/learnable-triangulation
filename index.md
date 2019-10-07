@@ -182,10 +182,10 @@ Here is the example of erroneous 3D pose annotations (S9, "Greeting"):
 
 # BibTeX
 ```
-@article{iskakov2019learnable,
+@inproceedings{iskakov2019learnable,
   title={Learnable Triangulation of Human Pose},
   author={Iskakov, Karim and Burkov, Egor and Lempitsky, Victor and Malkov, Yury},
-  journal={arXiv preprint arXiv:1905.05754},
+  booktitle = {International Conference on Computer Vision (ICCV)},
   year={2019}
 ```
 
