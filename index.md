@@ -187,6 +187,7 @@ Here is the example of erroneous 3D pose annotations (S9, "Greeting"):
   author={Iskakov, Karim and Burkov, Egor and Lempitsky, Victor and Malkov, Yury},
   booktitle = {International Conference on Computer Vision (ICCV)},
   year={2019}
+}
 ```
 
 # References
